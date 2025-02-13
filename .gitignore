@@ -1,0 +1,11 @@
+# Word临时文件
+~$*.doc*
+*.tmp
+
+# VBA编译文件
+*.exe
+*.dll
+
+# 系统文件
+.DS_Store
+Thumbs.db 
