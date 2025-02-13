@@ -1,15 +1,15 @@
-Attribute VB_Name = "Ä£¿é1"
+Attribute VB_Name = "æ¨¡å—1"
 Function CallTongyiAPI(api_key As String, inputText As String) As String
     Dim API As String
     Dim SendTxt As String
     Dim Http As Object
     Dim status_code As Integer
     Dim response As String
- '¸ÃÇëÇóÎªhttpÇëÇó£¬Ó¦¸Ã½«´ËÍøÖ·Ìæ»»³É¶ÔÓ¦µÄURL
+ 'è¯¥è¯·æ±‚ä¸ºhttpè¯·æ±‚ï¼Œåº”è¯¥å°†æ­¤ç½‘å€æ›¿æ¢æˆå¯¹åº”çš„URL
     API = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
     SendTxt = "{""model"": ""qwen-max-2025-01-25"", ""messages"": [{""role"":""system"", ""content"":""You are a Word assistant""}, {""role"":""user"", ""content"":""" & inputText & """}], ""stream"": false}"
- 'qwen-max-2025-01-25 ÎªÄ£ĞÍ±ğÃû£¬½ÓÈëapiÊ±ĞèÒªĞŞ¸Ä
- 'stream½¨ÒéÉèÖÃ³Éfalse£¬Ö®Ç°ÊÔ¹ıtrue£¬Éú³ÉÄÚÈİÎŞ·¨·µ»Ø
+ 'qwen-max-2025-01-25 ä¸ºæ¨¡å‹åˆ«åï¼Œæ¥å…¥apiæ—¶éœ€è¦ä¿®æ”¹
+ 'streamå»ºè®®è®¾ç½®æˆfalseï¼Œä¹‹å‰è¯•è¿‡trueï¼Œç”Ÿæˆå†…å®¹æ— æ³•è¿”å›
     Set Http = CreateObject("MSXML2.XMLHTTP")
     With Http
       .Open "POST", API, False
@@ -37,7 +37,7 @@ Sub TongyiV3()
     Dim matches As Object
     Dim originalSelection As Object
 
-    api_key = "sk-df73901a945f4247b064a7d078f5edfe" ' Ìæ»»ÎªÄãµÄapi key
+    api_key = "" ' æ›¿æ¢ä¸ºä½ çš„api key
     If api_key = "" Then
         MsgBox "Please enter the API key."
         Exit Sub
@@ -46,7 +46,7 @@ Sub TongyiV3()
         Exit Sub
     End If
 
-    ' ±£´æÔ­Ê¼Ñ¡ÖĞµÄÎÄ±¾
+    ' ä¿å­˜åŸå§‹é€‰ä¸­çš„æ–‡æœ¬
     Set originalSelection = Selection.Range.Duplicate
 
     inputText = Replace(Replace(Replace(Replace(Replace(Selection.Text, "\", "\\"), vbCrLf, ""), vbCr, ""), vbLf, ""), Chr(34), "\""")
@@ -64,17 +64,17 @@ Sub TongyiV3()
         If matches.Count > 0 Then
             response = matches(0).SubMatches(0)
             response = Replace(Replace(response, """", Chr(34)), """", Chr(34))
-            ' ½« \n Ìæ»»Îª Word ÖĞµÄ¶ÎÂä±ê¼Ç vbCrLf
+            ' å°† \n æ›¿æ¢ä¸º Word ä¸­çš„æ®µè½æ ‡è®° vbCrLf
             response = Replace(response, "\n", vbCrLf)
 
-            ' È¡ÏûÑ¡ÖĞÔ­Ê¼ÎÄ±¾
+            ' å–æ¶ˆé€‰ä¸­åŸå§‹æ–‡æœ¬
             Selection.Collapse Direction:=wdCollapseEnd
 
-            ' ½«ÄÚÈİ²åÈëµ½Ñ¡ÖĞÎÄ×ÖµÄÏÂÒ»ĞĞ
-            Selection.TypeParagraph ' ²åÈëĞÂĞĞ
+            ' å°†å†…å®¹æ’å…¥åˆ°é€‰ä¸­æ–‡å­—çš„ä¸‹ä¸€è¡Œ
+            Selection.TypeParagraph ' æ’å…¥æ–°è¡Œ
             Selection.TypeText Text:=response
 
-            ' ½«¹â±êÒÆ»ØÔ­À´Ñ¡ÖĞÎÄ±¾µÄÄ©Î²
+            ' å°†å…‰æ ‡ç§»å›åŸæ¥é€‰ä¸­æ–‡æœ¬çš„æœ«å°¾
             originalSelection.Select
         Else
             MsgBox "Failed to parse API response.", vbExclamation
